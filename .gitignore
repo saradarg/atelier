@@ -1,0 +1,25 @@
+# Secrets: never commit these
+.env
+*.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Java
+target/
+
+# Node / React
+node_modules/
+dist/
+
+# Editors and OS
+.idea/
+.vscode/
+Thumbs.db
+
+# Claude Code personal settings (shared settings in .claude/ ARE committed)
+.claude/settings.local.json
