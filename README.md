@@ -1,5 +1,7 @@
 # Atelier
 
+[![CI](https://github.com/saradarg/atelier/actions/workflows/ci.yml/badge.svg)](https://github.com/saradarg/atelier/actions/workflows/ci.yml)
+
 A home for my watercolor, colored pencil and pastel art: a public gallery, a private studio dashboard, and AI help for titles, descriptions and palettes.
 
 > **Status: In progress, week 1 of 8.** Nothing below is built yet. This README describes the plan and will be updated as features land.
@@ -13,11 +15,11 @@ A home for my watercolor, colored pencil and pastel art: a public gallery, a pri
 
 ## Planned architecture
 
-| Folder | Role | Stack |
-| --- | --- | --- |
-| [`web/`](web/) | Gallery and studio dashboard UI | React, TypeScript |
+| Folder         | Role                                | Stack                         |
+| -------------- | ----------------------------------- | ----------------------------- |
+| [`web/`](web/) | Gallery and studio dashboard UI     | React, TypeScript             |
 | [`api/`](api/) | REST API, auth, data, image uploads | Spring Boot 4, Java 21, MySQL |
-| [`ai/`](ai/) | "AI suggest" service | Python, FastAPI, Claude API |
+| [`ai/`](ai/)   | "AI suggest" service                | Python, FastAPI, Claude API   |
 
 Planned flow: `web` talks to `api`, and `api` calls `ai` for suggestions.
 
