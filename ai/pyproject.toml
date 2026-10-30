@@ -1,0 +1,17 @@
+[project]
+name = "ai"
+version = "0.1.0"
+description = "Atelier AI service: artwork catalog and Claude-powered suggestions"
+readme = "README.md"
+authors = [
+    { name = "saradarg", email = "sarada@sliqit.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+ai = "ai:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
