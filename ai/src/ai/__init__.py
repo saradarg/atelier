@@ -19,7 +19,9 @@ def main() -> None:
     for art in available:
         print(f"  {art.title} ({art.medium}, {art.year}) ${art.price:,.0f}")
 
-    print(f"\n\nTotal value of all {len(artworks)} artworks --> ${total_value(artworks):,.0f}")
+    print(
+        f"\n\nTotal value of all {len(artworks)} artworks --> ${total_value(artworks):,.0f}"
+    )
 
     print("\n Pastel works --> ")
 
