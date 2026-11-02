@@ -55,12 +55,16 @@ class Description(BaseModel):
 def image_block(path: Path) -> ImageBlockParam:
     """Read an image file and wrap it the way the Messages API expects."""
     media_type, _ = mimetypes.guess_type(path)
+    return image_block_from_bytes(path.read_bytes(), media_type)
+
+
+def image_block_from_bytes(data: bytes, media_type: str | None) -> ImageBlockParam:
+    """Wrap image bytes (from a file or an upload) for the Messages API."""
     if media_type not in SUPPORTED_TYPES:
-        raise ValueError(f"{path.name}: use a .jpg, .png or .webp image")
-    data = path.read_bytes()
+        raise ValueError("use a .jpg, .png or .webp image")
     if len(data) > MAX_IMAGE_BYTES:
         size_mb = len(data) / 1024 / 1024
-        raise ValueError(f"{path.name} is {size_mb:.1f} MB; the limit is 5 MB")
+        raise ValueError(f"the image is {size_mb:.1f} MB; the limit is 5 MB")
     return {
         "type": "image",
         "source": {
@@ -81,7 +85,14 @@ def estimate_cost(input_tokens: int, output_tokens: int) -> Decimal:
 def describe_painting(
     client: anthropic.Anthropic, path: Path
 ) -> ParsedMessage[Description]:
-    """Send one painting to Claude and return the parsed response."""
+    """Send one painting file to Claude and return the parsed response."""
+    return describe_image(client, image_block(path))
+
+
+def describe_image(
+    client: anthropic.Anthropic, image: ImageBlockParam
+) -> ParsedMessage[Description]:
+    """Send one image block to Claude and return the parsed response."""
     return client.messages.parse(
         model=MODEL,
         max_tokens=16000,
@@ -90,7 +101,7 @@ def describe_painting(
         messages=[
             {
                 "role": "user",
-                "content": [image_block(path), {"type": "text", "text": PROMPT}],
+                "content": [image, {"type": "text", "text": PROMPT}],
             }
         ],
         output_format=Description,
