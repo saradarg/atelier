@@ -1,9 +1,10 @@
 import base64
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
 
-from ai.describe import MAX_IMAGE_BYTES, Description, image_block
+from ai.describe import MAX_IMAGE_BYTES, Description, estimate_cost, image_block
 
 
 def test_image_block_wraps_a_jpeg(tmp_path: Path) -> None:
@@ -44,3 +45,12 @@ def test_description_validates_claude_json() -> None:
 
     assert result.titles == ["Harbor at Dusk"]
     assert result.palette[0].pigment == "Prussian blue"
+
+
+def test_estimate_cost_of_a_million_input_tokens() -> None:
+    assert estimate_cost(1_000_000, 0) == Decimal(4)
+
+
+def test_estimate_cost_adds_input_and_output() -> None:
+    # (1,500 x $4 + 800 x $20) / 1,000,000 = $0.022
+    assert estimate_cost(1_500, 800) == Decimal("0.022")
