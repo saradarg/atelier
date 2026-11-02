@@ -4,7 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from ai.describe import MAX_IMAGE_BYTES, Description, estimate_cost, image_block
+from ai.claude_client import MAX_IMAGE_BYTES, estimate_cost, image_block
+from ai.models import Description
 
 
 def test_image_block_wraps_a_jpeg(tmp_path: Path) -> None:

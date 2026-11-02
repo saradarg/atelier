@@ -7,8 +7,9 @@ import httpx2
 import pytest
 from fastapi.testclient import TestClient
 
-from ai.describe import MAX_IMAGE_BYTES, MODEL, Description, PaletteColor
+from ai.claude_client import EFFORT, MAX_IMAGE_BYTES, MODEL
 from ai.main import app, get_client
+from ai.models import Description, PaletteColor
 
 client = TestClient(app)
 
@@ -49,6 +50,7 @@ def test_describe_returns_claudes_description(fake_claude: MagicMock) -> None:
 
     call = fake_claude.messages.parse.call_args.kwargs
     assert call["model"] == MODEL
+    assert call["output_config"] == {"effort": EFFORT}
     assert call["output_format"] is Description
     image = call["messages"][0]["content"][0]
     assert image["source"]["media_type"] == "image/jpeg"

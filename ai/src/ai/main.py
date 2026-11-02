@@ -7,12 +7,8 @@ from typing import Annotated
 import anthropic
 from fastapi import Depends, FastAPI, HTTPException, UploadFile
 
-from ai.describe import (
-    SUPPORTED_TYPES,
-    Description,
-    describe_image,
-    image_block_from_bytes,
-)
+from ai.claude_client import SUPPORTED_TYPES, describe_image, image_block_from_bytes
+from ai.models import Description
 
 logger = logging.getLogger(__name__)
 
