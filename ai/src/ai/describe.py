@@ -6,6 +6,7 @@ from pathlib import Path
 
 import anthropic
 from anthropic.types import ParsedMessage
+from pydantic import ValidationError
 
 from ai.claude_client import describe_painting, estimate_cost
 from ai.models import Description
@@ -45,15 +46,21 @@ def main() -> None:
         print(f"\n===== {path.name} =====")
         try:
             response = describe_painting(client, path)
-        except (FileNotFoundError, ValueError) as e:
-            print(f"Can't use that image: {e}")
-            continue
         except anthropic.AuthenticationError:
             print("The API key was rejected. Check ANTHROPIC_API_KEY.")
             return
         except anthropic.APIConnectionError:
             print("Couldn't reach the Claude API. Check your internet connection.")
             return
+        except anthropic.APIStatusError as e:
+            print(f"Claude returned an error ({e.status_code}). Skipping this one.")
+            continue
+        except ValidationError:
+            print("Claude's answer didn't match the Description model. Skipping.")
+            continue
+        except (FileNotFoundError, ValueError) as e:
+            print(f"Can't use that image: {e}")
+            continue
 
         usage = response.usage
         cost = estimate_cost(usage.input_tokens, usage.output_tokens)
