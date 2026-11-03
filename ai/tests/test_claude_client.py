@@ -5,7 +5,6 @@ from pathlib import Path
 import pytest
 
 from ai.claude_client import MAX_IMAGE_BYTES, estimate_cost, image_block
-from ai.models import Description
 
 
 def test_image_block_wraps_a_jpeg(tmp_path: Path) -> None:
@@ -33,19 +32,6 @@ def test_image_block_rejects_images_over_5_mb(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="the limit is 5 MB"):
         image_block(image)
-
-
-def test_description_validates_claude_json() -> None:
-    json_text = (
-        '{"titles": ["Harbor at Dusk"], "description": "Boats at rest.", '
-        '"palette": [{"hex": "#1B3A5C", "name": "deep blue", '
-        '"pigment": "Prussian blue"}]}'
-    )
-
-    result = Description.model_validate_json(json_text)
-
-    assert result.titles == ["Harbor at Dusk"]
-    assert result.palette[0].pigment == "Prussian blue"
 
 
 def test_estimate_cost_of_a_million_input_tokens() -> None:

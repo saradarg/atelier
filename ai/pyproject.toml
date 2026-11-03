@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ai = "ai:main"
+ai = "ai.catalog_report:main"
 
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14.0"]

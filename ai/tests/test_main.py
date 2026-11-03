@@ -21,7 +21,13 @@ CLAUDE_URL = httpx2.Request("POST", "https://api.anthropic.com/v1/messages")
 SAMPLE = Description(
     titles=["Harbor at Dusk", "Boats at Rest", "Evening Tide"],
     description="I painted this on the quay. I left the paper bare for the light.",
-    palette=[PaletteColor(hex="#1B3A5C", name="deep blue", pigment="Prussian Blue")],
+    palette=[
+        PaletteColor(hex="#1B3A5C", name="deep blue", pigment="Prussian Blue"),
+        PaletteColor(hex="#E8D5B0", name="warm cream", pigment="Yellow Ochre"),
+        PaletteColor(hex="#B5562D", name="rust", pigment="Burnt Sienna"),
+        PaletteColor(hex="#5B6B3A", name="olive green", pigment="Sap Green"),
+        PaletteColor(hex="#2E2A28", name="near black", pigment="Payne's Gray"),
+    ],
 )
 
 
