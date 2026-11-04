@@ -33,7 +33,7 @@ def get_palette(image_bytes: bytes, count: int = 5) -> list[Swatch]:
     total = reduced.width * reduced.height
 
     swatches = []
-    for pixels, index in sorted(pixel_counts, reverse=True):    
+    for pixels, index in sorted(pixel_counts, reverse=True):
         red, green, blue = colors[index * 3 : index * 3 + 3]
         swatches.append(
             Swatch(hex=f"#{red:02X}{green:02X}{blue:02X}", share=pixels / total)
